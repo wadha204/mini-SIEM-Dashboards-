@@ -70,6 +70,12 @@ def run_detection(events):
             "تم العثور على أحداث بمستوى Warning في سجل Windows System؛ راجعيها عند توفر الوقت.")
     # الأحداث المعلوماتية العادية لا تُحوّل إلى Alerts؛ تبقى قابلة للبحث في صفحة الأحداث.
 
+    windows_information = [e for e in events if e["source"] == "Windows System" and e["status"] in {"Information", "Info"}]
+    if windows_information:
+        windows_information.sort(key=lambda x: x["event_time"] or __import__("datetime").datetime.min)
+        add("windows_system_information", "Windows System Information", "Low", None, windows_information,
+            "Informational Windows System events retained for educational review.")
+
     for event in events:
         eid = str(event.get("event_id") or "")
         if eid == "1102":
