@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Educational Mini SIEM dashboard built with Flask and SQLite">
+  <title>Sentinel Mini SIEM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">S</span><div><strong>Sentinel</strong><small>MINI SIEM</small></div></div>
+    <nav aria-label="Main navigation">
+      <a class="active" href="#overview">▦ <span>Overview</span></a>
+      <a href="#analytics">⌁ <span>Analytics</span></a>
+      <a href="#events">≡ <span>Security events</span></a>
+    </nav>
+    <div class="education-note"><strong>Educational demo</strong><p>Uses synthetic logs only. It is not a replacement for a production SIEM.</p></div>
+  </aside>
+
+  <main>
+    <header>
+      <div><p class="eyebrow">SECURITY OPERATIONS CENTER</p><h1>Security Overview</h1><p class="muted">Real-time visibility into your demonstration environment.</p></div>
+      <div class="live"><span></span> System operational</div>
+    </header>
+
+    <section id="overview" class="metric-grid" aria-label="Summary metrics">
+      <article class="metric"><div class="metric-icon blue">◎</div><div><p>Total events</p><strong id="totalEvents">—</strong><small>All ingested logs</small></div></article>
+      <article class="metric"><div class="metric-icon red">!</div><div><p>High-risk events</p><strong id="activeThreats">—</strong><small>High + critical</small></div></article>
+      <article class="metric"><div class="metric-icon green">✓</div><div><p>Blocked</p><strong id="blockedEvents">—</strong><small>Prevented activity</small></div></article>
+      <article class="metric"><div class="metric-icon purple">⌾</div><div><p>Unique sources</p><strong id="uniqueSources">—</strong><small>Observed IP addresses</small></div></article>
+    </section>
+
+    <section id="analytics" class="chart-grid">
+      <article class="panel wide"><div class="panel-heading"><div><h2>Event activity</h2><p>Events observed by day</p></div></div><div class="chart-wrap"><canvas id="timelineChart"></canvas></div></article>
+      <article class="panel"><div class="panel-heading"><div><h2>Severity</h2><p>Risk distribution</p></div></div><div class="chart-wrap"><canvas id="severityChart"></canvas></div></article>
+      <article class="panel full"><div class="panel-heading"><div><h2>Top event categories</h2><p>Most frequent detection types</p></div></div><div class="chart-wrap short"><canvas id="eventsChart"></canvas></div></article>
+    </section>
+
+    <section id="events" class="panel logs-panel">
+      <div class="panel-heading log-heading"><div><h2>Security events</h2><p>Search and investigate synthetic activity</p></div><a id="exportButton" class="button" href="/api/logs/export">Export CSV</a></div>
+      <div class="filters">
+        <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search IP, event or message…" aria-label="Search logs"></label>
+        <select id="severityFilter" aria-label="Filter by severity"><option value="">All severities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select>
+        <select id="statusFilter" aria-label="Filter by status"><option value="">All statuses</option><option>Blocked</option><option>Investigating</option><option>Allowed</option></select>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Source</th><th>Event</th><th>Severity</th><th>Status</th><th>Details</th></tr></thead><tbody id="logsTable"><tr><td colspan="6" class="empty">Loading events…</td></tr></tbody></table></div>
+      <p id="resultCount" class="result-count"></p>
+    </section>
+    <footer>Sentinel Mini SIEM · Built for cybersecurity learning</footer>
+  </main>
+</body>
+</html>
