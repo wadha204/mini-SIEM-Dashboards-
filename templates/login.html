@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<section class="panel narrow"><h1>تسجيل الدخول</h1><p>هذه النسخة محمية لأن الوصول العام مفعّل.</p>
+<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<label>اسم المستخدم<input name="username" autocomplete="username" required></label>
+<label>كلمة المرور<input type="password" name="password" autocomplete="current-password" required></label>
+<button type="submit">دخول</button></form></section>{% endblock %}

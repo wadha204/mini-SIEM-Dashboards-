@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block content %}
+<section class="panel"><h1>تفاصيل الحدث #{{ event.id }}</h1>
+<dl><dt>الملف</dt><dd>{{ event.original_name or '—' }}</dd><dt>رقم السطر/السجل</dt><dd>{{ event.line_number or '—' }}</dd>
+<dt>الوقت</dt><dd>{{ event.event_time or 'غير متاح' }}</dd><dt>المصدر</dt><dd>{{ event.source or '—' }}</dd>
+<dt>المزوّد</dt><dd>{{ event.provider or '—' }}</dd><dt>Event ID</dt><dd>{{ event.event_id or '—' }}</dd>
+<dt>الجهاز</dt><dd>{{ event.computer or '—' }}</dd><dt>المستخدم</dt><dd>{{ event.username or '—' }}</dd>
+<dt>عنوان IP</dt><dd>{{ event.source_ip or '—' }}</dd><dt>النوع</dt><dd>{{ event.event_type or '—' }}</dd>
+<dt>النتيجة</dt><dd>{{ event.status or '—' }}</dd><dt>الخطورة</dt><dd><span class="badge {{ (event.severity or 'low')|lower }}">{{ event.severity or 'Low' }}</span></dd></dl>
+<h2>السطر الأصلي</h2><pre>{{ event.raw_line or 'غير متاح' }}</pre><p><a class="button" href="{{ url_for('events') }}">العودة إلى الأحداث</a></p></section>{% endblock %}
